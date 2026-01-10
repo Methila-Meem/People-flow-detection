@@ -1,12 +1,12 @@
-📊 People Flow Detection & Heatmap Analysis
+# 📊 People Flow Detection & Heatmap Analysis
 
-🚀 Project Overview
+## 🚀 Project Overview
 
 People Flow Detection is a computer vision system that analyzes pedestrian movement in video footage. It detects and tracks individuals, counts entries and exits using virtual lines, and generates a heatmap highlighting high-traffic areas.
 
 This project demonstrates practical skills in object detection, multi-object tracking, movement analytics, and visual data interpretation, making it well-suited for real-world applications such as crowd monitoring, retail analytics, and smart surveillance systems.
 
-✨ Key Features
+## ✨ Key Features
 
 ✅ Person detection using YOLOv8
 
@@ -21,8 +21,9 @@ This project demonstrates practical skills in object detection, multi-object tra
 📓 Implemented as a Jupyter Notebook for clarity and experimentation
 
 
-🧠 System Architecture
+## 🧠 System Architecture
 
+```
 Video Input
     ↓
 YOLOv8 (Person Detection)
@@ -36,98 +37,100 @@ IN / OUT Counting
 Heatmap Accumulation
     ↓
 Visual Output (Video + Heatmap)
+```
 
+## 🧍 Detection & Tracking
 
-🧍 Detection & Tracking
+- Object Detection:
 
-Object Detection:
+    - Model: YOLOv8 Nano (yolov8n.pt)
 
-Model: YOLOv8 Nano (yolov8n.pt)
+    - Framework: Ultralytics YOLO
 
-Framework: Ultralytics YOLO
+    - Classes Tracked: Person only (COCO class 0)
 
-Classes Tracked: Person only (COCO class 0)
+    - Each frame is processed independently to detect pedestrians.
 
-Each frame is processed independently to detect pedestrians.
+- Object Tracking:
 
-Object Tracking:
+    - Tracker: deep_sort_realtime
 
-Tracker: deep_sort_realtime
+    - Assigns a persistent track_id to each person
 
-Assigns a persistent track_id to each person
+    - Enables trajectory tracking and prevents double counting
 
-Enables trajectory tracking and prevents double counting
-
-📏 IN / OUT Line Logic
+## 📏 IN / OUT Line Logic
 
 Two horizontal virtual lines define entry and exit events.
 
-Line	Purpose	Default Position
+|Line	               |Purpose	       |Default Position     |
+| ---------------------|---------------|---------------------|
+| Upper Line (Green)   | IN counting   |35% of frame height  |
+|                      |               |                     |
+| Lower Line (Red)	   | OUT counting  |65% of frame height  | 
 
-Upper Line (Green)	IN counting	35% of frame height
-
-Lower Line (Red)	OUT counting	65% of frame height
-
+```
 y_upper = int(height * 0.35), 
 
 y_lower = int(height * 0.65)
+```
 
+## 🔄 Movement & Counting Logic
 
-🔄 Movement & Counting Logic
+- Track History:
 
-Track History:
+    - Each person’s bounding box center is stored in a deque (length = 8)
 
-Each person’s bounding box center is stored in a deque (length = 8)
+    - Used to compute movement direction
 
-Used to compute movement direction
-
-Direction Estimation:
-
+- Direction Estimation:
+```
 dy > 0 → Moving downward
 
 dy < 0 → Moving upward
-
-Counting Rules:
-
-IN Count
+```
+- Counting Rules:
+```
+# IN Count
 
 Crosses upper line downward
 
 Moving from above → below
 
 dy > 0
-
-OUT Count
+```
+```
+# OUT Count
 
 Crosses lower line upward
 
 Moving from below → above
 
 dy < 0
+```
 
-🔒 Each track_id is counted only once per direction.
+- Each track_id is counted only once per direction.
 
-
-🔥 Heatmap Generation
+## 🔥 Heatmap Generation
 
 The heatmap visualizes areas with the highest pedestrian activity.
 
-Method:
+#### Method:
 
-Extract center points of tracked people
+- Extract center points of tracked people
 
-Accumulate positions in a heatmap grid
+- Accumulate positions in a heatmap grid
 
-Normalize & smooth using Gaussian blur
+- Normalize & smooth using Gaussian blur
 
-Apply JET colormap
+- Apply JET colormap
 
-Overlay on a video frame
+- Overlay on a video frame
 
 
-Output
+## 🔖 Output
 
-🎥 Visual Outputs
+### 🎥 Visual Outputs
 
 📦 Bounding boxes with track IDs
 
@@ -137,8 +140,7 @@ Output
 
 🔥 Movement heatmap
 
-
-🛠 Technologies Used
+### 🛠 Technologies Used
 
 - Python
 
@@ -155,17 +157,23 @@ Output
 - Matplotlib
   
 
-▶️ How to Run
-
+## ▶️ How to Run
+```
 git clone https://github.com/Methila-Meem/People-flow-detection.git
+```
+```
 cd people-flow-detection
+```
+```
 pip install -r requirements.txt
+```
+```
 jupyter notebook
 
-Open People Flow Detection.ipynb and run the cells sequentially.
+# Open People Flow Detection.ipynb and run the cells sequentially.
+```
 
-
-🎯 Use Cases
+## 🎯 Use Cases
 
 - Retail footfall analytics
 
@@ -178,7 +186,7 @@ Open People Flow Detection.ipynb and run the cells sequentially.
 - Public space utilization studies
 
 
-⚠️ Limitations
+## ⚠️ Limitations
 
 - Performance depends on camera angle and lighting
 
@@ -187,7 +195,7 @@ Open People Flow Detection.ipynb and run the cells sequentially.
 - Line placement may need tuning for different scenes
   
 
-🔮 Future Improvements
+## 🔮 Future Improvements
 
 - Live webcam / RTSP stream support
 
