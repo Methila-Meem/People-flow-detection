@@ -127,10 +127,12 @@ The heatmap visualizes areas with the highest pedestrian activity.
 
 - Overlay on a video frame
 
+#### Output
+```
+outputs/people_heatmap.png
+```
 
-## 🔖 Output
-
-### 🎥 Visual Outputs
+## 🎥 Visual Outputs
 
 📦 Bounding boxes with track IDs
 
@@ -140,7 +142,7 @@ The heatmap visualizes areas with the highest pedestrian activity.
 
 🔥 Movement heatmap
 
-### 🛠 Technologies Used
+## 🛠 Technologies Used
 
 - Python
 
